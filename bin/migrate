@@ -4,7 +4,6 @@ var fs = require('fs');
 var stream = require('stream');
 var es = require('event-stream');
 var parse = require('csv-parse');
-var Trip = require('../models/trip');
 var moment = require('moment');
 
 //first get all the files in the sample_data directory
@@ -31,11 +30,11 @@ fs.readdir('./sample_data', function(err, filenames) {
         row = row.split(",");
 
         if ( rowCount === 0 ) {
-          //do nothing
+          //do nothing and skip header row
         } else if (rowCount%2 == 1) { //odd row, so use location as dropoff for next row
           nextDropoff = {"lat": row[1], "lon": row[2]};
         } else {
-          //create GeoJSON record (which has longitude first)
+          //create GeoJSON record using previous pickup point (which has longitude first)
           var trip = {
             "timestamp": new Date((row[0]).replace(/['"]+/g, '')),
             "loc": {
@@ -47,7 +46,6 @@ fs.readdir('./sample_data', function(err, filenames) {
           if(coord[0][0] !== coord[1][0] && coord[0][1] !== coord[1][1]) {
             tripRecords.push(trip);
           }
-          //trip.save();
         }
         rowCount++;
         reader.resume();
@@ -60,16 +58,12 @@ fs.readdir('./sample_data', function(err, filenames) {
         throw err;
       }).on('end',function() {
         console.log("DONE PARSING %s!\n", filename);
+        //write transformed csv to intermediate output file that will be uploaded to mongodb
         writer.write(JSON.stringify(tripRecords));
+        //Use expected and finished so we know when we have processed all the files
         if(expected == ++finished) {
           process.exit();
         }
-      //console.log("DONE SAVING %d TRIPS TO MONGODB!", tripRecords.length);
-/*        Trip.collection.insert(tripRecords, function(err){
-          if(err)
-            throw err;
-          console.log("DONE SAVING %d TRIPS TO MONGODB!", tripRecords.length);
-        });*/
     });
   });
 });
