@@ -1,5 +1,10 @@
-run: 
-	supervisor app.js
+bundle:
+	npm run watch &
+
+run-only:
+	npm start
+
+run: bundle run-only
 
 install:
 	npm install

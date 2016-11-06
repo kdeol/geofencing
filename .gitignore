@@ -23,9 +23,12 @@ node_modules
 # Optional REPL history
 .node_repl_history
 
-#IDE
+# IDE
 .idea
 
-#Sample Data
+# Sample Data
 sample_data
 transform_sample_data
+
+# Compiled JS
+public/bundle.js
