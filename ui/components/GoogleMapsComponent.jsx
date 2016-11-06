@@ -56,11 +56,25 @@ export default class MapComponent extends Component {
         shape = event.overlay;
         var bounds = [];
         if(event.type == google.maps.drawing.OverlayType.POLYGON) {
-          bounds = shape.getPath().getArray();
+          var path = shape.getPath();
+          bounds = path.getArray();
+          google.maps.event.addListener(path, 'set_at', function() {
+            bounds = path.getArray();
+            console.log(bounds);
+          });
+          google.maps.event.addListener(path, 'insert_at', function() {
+            bounds = path.getArray();
+            console.log(bounds);
+          });
         } else {
           bounds = shape.getBounds();
+          google.maps.event.addListener(shape, "bounds_changed", function() {
+            bounds = shape.getBounds();
+            console.log(bounds);
+          });
         }
         console.log(bounds);
+
         drawingManager.setDrawingMode(null);
       }
     });
