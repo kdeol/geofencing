@@ -25,3 +25,7 @@ node_modules
 
 #IDE
 .idea
+
+#Sample Data
+sample_data
+transform_sample_data

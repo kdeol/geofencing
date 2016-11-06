@@ -42,8 +42,9 @@ fs.readdir('./sample_data', function(err, filenames) {
               "coordinates": [ [parseFloat(row[2]), parseFloat(row[1])], [parseFloat(nextDropoff.lon), parseFloat(nextDropoff.lat)]]}
           };
           var coord = trip.loc.coordinates;
-          //only add trip if beginning is not the same as the end
-          if(coord[0][0] !== coord[1][0] && coord[0][1] !== coord[1][1]) {
+          //only add trip if beginning is not the same as the end and both exist
+          if((coord[0][0] && coord[0][1] && coord[1][0] && coord[1][1])
+            && coord[0][0] !== coord[1][0] && coord[0][1] !== coord[1][1]) {
             tripRecords.push(trip);
           }
         }
