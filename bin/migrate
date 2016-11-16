@@ -5,6 +5,7 @@ var stream = require('stream');
 var es = require('event-stream');
 var parse = require('csv-parse');
 var moment = require('moment');
+var path = require('path');
 
 //first get all the files in the sample_data directory
 fs.readdir('./sample_data', function(err, filenames) {
@@ -16,13 +17,19 @@ fs.readdir('./sample_data', function(err, filenames) {
   //for every file in the directory, read the CSV in to MongoDB
   var expected = 0;
   var finished = 0;
+
+  var transformDir = './transform_sample_data/';
+  if (!fs.existsSync(transformDir)){
+    fs.mkdirSync(transformDir);
+  }
+
   filenames.forEach(function(filename) {
     if(filename.startsWith('.'))
       return;
     expected++;
     var tripRecords = [];
     var reader = fs.createReadStream('./sample_data/' + filename);
-    var writer = fs.createWriteStream('./transform_sample_data/TRANSFORM-' + filename, {flags: 'w', encoding: 'utf-8',mode: 0666});
+    var writer = fs.createWriteStream(transformDir + 'TRANSFORM-' + filename, {flags: 'w', encoding: 'utf-8',mode: 0666});
     var rowCount = 0; // to keep track of where we are
     var nextDropoff = null;
     var transform = function(row) {

@@ -1,23 +1,39 @@
 import React from 'react';
+import ReactDOM from 'react-dom';
+import 'whatwg-fetch'
 import MapComponent from '../components/GoogleMapsComponent.jsx'
+import SidebarContainer from './SidebarContainer.jsx'
 
 const MainContainer = React.createClass({
 
   getInitialState() {
     return {
-      coordinates: {
-        lat: 40.7388652,
-        lon: -73.9917875
-      }
+      bounds: []
     }
   },
 
+  handleShapeChange (bounds) {
+    this.setState({bounds: bounds});
+  },
+
+  handleTopLocations (locations) {
+    var mapComponent = this.refs["mapComponent"];
+    mapComponent.removeMarkers(locations);
+    mapComponent.addMarkers(locations);
+  },
+
   render () {
-    //Center on NYC since all of our data is form there
-    return <MapComponent
-        lat={this.state.coordinates.lat}
-        lon={this.state.coordinates.lon}
+    return <div>
+      <MapComponent
+        ref="mapComponent"
+        onShapeChange={this.handleShapeChange}
+        onMap
       />
+      <SidebarContainer
+        bounds = {this.state.bounds}
+        onTopLocations={this.handleTopLocations}
+      />
+    </div>
   }
 });
 

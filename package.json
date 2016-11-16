@@ -7,10 +7,12 @@
     "watch": "watchify -t [ babelify --presets [ es2015 react ] ] public/javascripts/main.js -o public/bundle.js -dv"
   },
   "dependencies": {
+    "JSONStream": "^1.2.1",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-es2016": "^6.11.3",
     "babel-preset-react": "^6.11.1",
     "babelify": "^7.3.0",
+    "bignumber.js": "^3.0.0",
     "body-parser": "~1.15.2",
     "browserify": "^13.1.1",
     "cookie-parser": "~1.4.3",
@@ -20,6 +22,7 @@
     "express": "~4.14.0",
     "jade": "~1.11.0",
     "less-middleware": "~2.2.0",
+    "lodash": "^4.16.6",
     "moment": "^2.15.2",
     "mongoose": "^4.6.6",
     "morgan": "~1.7.0",
@@ -29,6 +32,7 @@
     "serve-favicon": "~2.3.0",
     "supervisor": "^0.11.0",
     "uglify-js": "^2.7.4",
-    "watchify": "^3.7.0"
+    "watchify": "^3.7.0",
+    "whatwg-fetch": "^1.0.0"
   }
 }

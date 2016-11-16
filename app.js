@@ -6,6 +6,7 @@ var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 
 var index = require('./routes/index');
+var query = require('./routes/query');
 
 var app = express();
 
@@ -24,6 +25,7 @@ app.use(require('less-middleware')(path.join(__dirname, 'public')));
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use('/', index);
+app.use('/query', query);
 
 app.get('/favicon.ico', function(req, res) {
   res.send(200);

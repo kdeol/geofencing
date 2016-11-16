@@ -1,27 +1,58 @@
 import React, {Component} from 'react';
+import _ from 'lodash';
 
 var mapStyle = {
-  width:"100%",
-  height:"100%"
+  width:"500px",
+  height:"500px"
 };
 
 export default class MapComponent extends Component {
   constructor(props) {
     super(props);
+    this.markers = [];
+  }
+
+  shouldComponentUpdate (nextProps, nextState) {
+    return false;
   }
 
   componentDidMount() {
     this.componentDidUpdate()
   }
 
+  boundsToArray(bounds, isRectangle) {
+    var arr = [];
+    if(isRectangle) {
+      var NE = bounds.getNorthEast();
+      var SW = bounds.getSouthWest();
+      arr.push({lat: NE.lat(), lng: NE.lng()}); //NorthEast
+      arr.push({lat: SW.lat(), lng: NE.lng()}); //SouthEast
+      arr.push({lat: SW.lat(), lng: SW.lng()}); //SouthWest
+      arr.push({lat: SW.lng(), lng: NE.lat()}); //NorthWest
+      arr.push({lat: NE.lat(), lng: NE.lng()}); //Close the loop to make this box a polygon
+    } else {
+      for(let b of bounds) {
+        arr.push({lat: b.lat(), lng: b.lng()});
+      }
+
+      if(!_.isEmpty(arr)) {
+        arr.push({lat: bounds[0].lat(), lng: bounds[0].lng()});
+      }
+    }
+
+    return arr;
+  }
+
   componentDidUpdate () {
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 11,
-      center: new google.maps.LatLng(this.props.lat,this.props.lon),
+      center: new google.maps.LatLng(40.7388652,-73.9917875),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true,
       streetViewControl: false
     });
+
+    this.map = map;
 
     var drawingManager = new google.maps.drawing.DrawingManager({
       drawingMode: google.maps.drawing.OverlayType.POLYGON,
@@ -49,40 +80,67 @@ export default class MapComponent extends Component {
     });
     drawingManager.setMap(map);
     var shape = null;
-    google.maps.event.addListener(drawingManager, 'overlaycomplete', function(event) {
+    google.maps.event.addListener(drawingManager, 'overlaycomplete', (event) => {
       if (event.type == google.maps.drawing.OverlayType.RECTANGLE || event.type == google.maps.drawing.OverlayType.POLYGON) {
         if(shape != null)
           shape.setMap(null);
         shape = event.overlay;
         var bounds = [];
+        //should be setting component state here and sending to server when it changes
         if(event.type == google.maps.drawing.OverlayType.POLYGON) {
           var path = shape.getPath();
-          bounds = path.getArray();
-          google.maps.event.addListener(path, 'set_at', function() {
-            bounds = path.getArray();
-            console.log(bounds);
+          this.props.onShapeChange(this.boundsToArray(path.getArray(), false));
+          google.maps.event.addListener(path, 'set_at', () => {
+            this.props.onShapeChange(this.boundsToArray(path.getArray(), false));
           });
-          google.maps.event.addListener(path, 'insert_at', function() {
-            bounds = path.getArray();
-            console.log(bounds);
+          google.maps.event.addListener(path, 'insert_at', () => {
+            this.props.onShapeChange(this.boundsToArray(path.getArray(), false));
           });
         } else {
           bounds = shape.getBounds();
-          google.maps.event.addListener(shape, "bounds_changed", function() {
+          this.props.onShapeChange(this.boundsToArray(bounds, true));
+          google.maps.event.addListener(shape, "bounds_changed", () => {
             bounds = shape.getBounds();
-            console.log(bounds);
+            this.props.onShapeChange(this.boundsToArray(bounds, true));
           });
         }
-        console.log(bounds);
 
         drawingManager.setDrawingMode(null);
       }
     });
 
-    google.maps.event.addListener(drawingManager, "drawingmode_changed", function() {
+    google.maps.event.addListener(drawingManager, "drawingmode_changed", () => {
       if (drawingManager.getDrawingMode() &&
-        (shape != null))
+        (shape != null)) {
         shape.setMap(null);
+        this.removeMarkers();
+      }
+    });
+  }
+
+  removeMarkers () {
+    this.markers.forEach((marker) => {
+      marker.setMap(null);
+    });
+
+    this.markers = [];
+  }
+
+  addMarkers(locations) {
+    locations.forEach((location) => {
+      var marker = new google.maps.Marker({
+        position: new google.maps.LatLng(location._id[1], location._id[0]),
+        map: this.map
+      });
+
+      this.markers.push(marker);
+
+      var infowindow = new google.maps.InfoWindow;
+
+      google.maps.event.addListener(marker, 'click', () => {
+          infowindow.setContent("Count: " + location.count);
+          infowindow.open(this.map, marker);
+      });
     });
   }
 
