@@ -22,7 +22,7 @@ export default class PickupHeatMapComponent extends Component {
 
   render() {
     var disabled = this.props.heatmapEnabled ? '' : 'disabled';
-    return <label className="checkbox-inline" disabled={disabled}><input type="checkbox" checked={this.props.heatmapOn || this.state.checked} disabled={disabled} onClick={this.onCheck.bind(this)} value="" />Pickups Heatmap</label>
+    return <label className="checkbox-inline control" disabled={disabled}><input type="checkbox" checked={this.props.heatmapOn || this.state.checked} disabled={disabled} onClick={this.onCheck.bind(this)} value="" />Pickups Heatmap</label>
   }
 }
 

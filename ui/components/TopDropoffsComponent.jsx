@@ -5,11 +5,6 @@ export default class TopDropoffsComponent extends Component {
     super(props);
   }
 
-
-  shouldComponentUpdate () {
-    return false;
-  }
-
   componentDidMount() {
 
   }
@@ -18,6 +13,6 @@ export default class TopDropoffsComponent extends Component {
   }
 
   render() {
-    return <button id="top-dropoffs-button" type="button" className="btn btn-default" onClick={this.props.onQueryClick}>Get Top Dropoffs</button>
+    return <button id="top-dropoffs-button" type="button" className="btn btn-default control" onClick={this.props.onQueryClick} disabled={this.props.isLoading}>Get Top Dropoffs</button>
   }
 }

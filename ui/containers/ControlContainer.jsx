@@ -6,6 +6,11 @@ import DropoffHeatMapComponent from '../components/DropoffHeatMapComponent.jsx'
 import TopDropoffsComponent from '../components/TopDropoffsComponent.jsx'
 import DateRangePickerComponent from '../components/DateRangePickerComponent.jsx'
 
+var controlContainerStyle = {
+  "marginTop": "24px",
+  "marginBottom": "24px"
+};
+
 const ControlContainer = React.createClass({
 
   getInitialState() {
@@ -13,29 +18,33 @@ const ControlContainer = React.createClass({
   },
 
   render () {
-    return (<div id="controls">
+    return (<div id="controls" style={controlContainerStyle}>
         <DateRangePickerComponent
           onDateRange={this.props.onDateRange}
         />
         <TotalTripsComponent
           onQueryClick={this.props.onQueryClick}
-        />
-        <TopPickupsComponent
-          onQueryClick={this.props.onTopPickupsClick}
+          isLoading={this.props.isLoading}
         />
         <PickupHeatMapComponent
           onChecked={this.props.onPickupHeatMapClick}
           heatmapEnabled={this.props.heatmapEnabled}
           heatmapOn={this.props.pickupHeatmapOn}
         />
-        <TopDropoffsComponent
-          onQueryClick={this.props.onTopDropoffsClick}
-        />
         <DropoffHeatMapComponent
           onChecked={this.props.onDropoffHeatMapClick}
           heatmapEnabled={this.props.heatmapEnabled}
           heatmapOn={this.props.dropoffHeatmapOn}
         />
+        <TopPickupsComponent
+          onQueryClick={this.props.onTopPickupsClick}
+          isLoading={this.props.isLoading}
+        />
+        <TopDropoffsComponent
+          onQueryClick={this.props.onTopDropoffsClick}
+          isLoading={this.props.isLoading}
+        />
+
       </div>);
   }
 });

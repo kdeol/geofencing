@@ -1,5 +1,9 @@
 import React, {Component} from 'react';
 
+var datePickerStyle = {
+  "display": "inline"
+};
+
 export default class DateRangePickerComponent extends Component {
   constructor(props) {
     super(props);
@@ -27,7 +31,7 @@ export default class DateRangePickerComponent extends Component {
   }
 
   render() {
-    return <div>
+    return <div style={datePickerStyle} className="control">
       <label>Date</label>
       <input type="text" name="daterange" />
     </div>

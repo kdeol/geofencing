@@ -2,6 +2,7 @@ import React from 'react';
 import 'whatwg-fetch'
 import ControlContainer from './ControlContainer.jsx'
 import DataContainer from './DataContainer.jsx'
+import LoadingComponent from '../components/LoadingComponent.jsx'
 import _ from 'lodash'
 
 const SidebarContainer = React.createClass({
@@ -22,6 +23,7 @@ const SidebarContainer = React.createClass({
   },
 
   handleQueryClick () {
+    this.setState({isLoading: true, 'trips': [], 'topPickups': [], 'topDropoffs': []});
     //send this.state.bounds to backend
     var req = { start: this.state.start, end: this.state.end, coordinates: this.props.bounds };
     if(req.coordinates.length <= 0) {
@@ -37,7 +39,7 @@ const SidebarContainer = React.createClass({
           throw error;
         }
       }).then((json) => {
-      this.setState({'trips': json, 'heatmapEnabled': true, 'pickupHeatmapOn': true, 'dropoffHeatmapOn': true});
+      this.setState({isLoading: false, 'trips': json, 'heatmapEnabled': true, 'pickupHeatmapOn': true, 'dropoffHeatmapOn': true});
       this.props.onTrips(this.state.trips);
     }).catch(function(ex) {
       console.log(ex)
@@ -45,6 +47,7 @@ const SidebarContainer = React.createClass({
   },
 
   handleTopPickupsClick () {
+    this.setState({isLoading: true});
     var req = { start: this.state.start, end: this.state.end, coordinates: this.props.bounds };
     fetch('/query/toppickups?' + $.param(req))
       .then(function(response) {
@@ -56,7 +59,7 @@ const SidebarContainer = React.createClass({
           throw error;
         }
       }).then((json) => {
-      this.setState({'topPickups': json, "showPickups": true});
+      this.setState({isLoading: false, 'topPickups': json, "showPickups": true});
       this.props.onTopLocations(this.state.topPickups);
     }).catch(function(ex) {
       console.log(ex)
@@ -64,6 +67,7 @@ const SidebarContainer = React.createClass({
   },
 
   handleTopDropoffsClick () {
+    this.setState({isLoading: true});
     var req = { start: this.state.start, end: this.state.end, coordinates: this.props.bounds };
     fetch('/query/topdropoffs?' + $.param(req))
       .then(function(response) {
@@ -75,7 +79,7 @@ const SidebarContainer = React.createClass({
           throw error;
         }
       }).then((json) => {
-      this.setState({'topDropoffs': json, "showPickups": false});
+      this.setState({isLoading: false, 'topDropoffs': json, "showPickups": false});
       this.props.onTopLocations(this.state.topDropoffs);
     }).catch(function(ex) {
       console.log(ex)
@@ -104,7 +108,9 @@ const SidebarContainer = React.createClass({
         onPickupHeatMapClick={this.handlePickupHeatMapClick}
         onDropoffHeatMapClick={this.handleDropoffHeatMapClick}
         onTopDropoffsClick={this.handleTopDropoffsClick}
+        isLoading={this.state.isLoading}
       />
+      <LoadingComponent isLoading={this.state.isLoading}/>
       <DataContainer
         trips={this.state.trips}
         topPickups={this.state.topPickups}

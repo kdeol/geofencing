@@ -136,12 +136,7 @@ export default class MapComponent extends Component {
         position: new google.maps.LatLng(location._id[1], location._id[0]),
         map: this.map,
         title: "Count: " + location.count,
-        icon: new google.maps.MarkerImage(
-          'http://maps.google.com/mapfiles/kml/paddle/' + (++i) + '.png',
-          null,
-          null,
-          null,
-          new google.maps.Size(42, 42))
+        label: ++i + ''
       });
 
       this.markers.push(marker);
@@ -157,22 +152,12 @@ export default class MapComponent extends Component {
 
   toggleMarkerOn(id) {
     var marker = this.markers[id-1];
-    marker.setIcon(new google.maps.MarkerImage(
-      'http://maps.google.com/mapfiles/kml/paddle/blu-circle.png',
-      null,
-      null,
-      null,
-      new google.maps.Size(42, 42)))
+    marker.setAnimation(google.maps.Animation.BOUNCE);
   }
 
   toggleMarkerOff(id) {
     var marker = this.markers[id-1];
-    marker.setIcon(new google.maps.MarkerImage(
-      'http://maps.google.com/mapfiles/kml/paddle/' + id + '.png',
-      null,
-      null,
-      null,
-      new google.maps.Size(42, 42)))
+    marker.setAnimation(null);
   }
 
   getHeatmapPoints(trips, isPickup) {
@@ -235,6 +220,6 @@ export default class MapComponent extends Component {
   }
 
   render() {
-    return <div id="map" style={mapStyle}><i className="fa-li fa fa-spinner fa-spin"></i>Loading...</div>
+    return <div id="map" style={mapStyle}><i className="fa-li fa fa-spinner fa-pulse"></i>Loading...</div>
   }
 }
