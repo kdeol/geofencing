@@ -51,7 +51,8 @@ export default class MapComponent extends Component {
       center: new google.maps.LatLng(40.7388652,-73.9917875),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true,
-      streetViewControl: false
+      streetViewControl: false,
+      zoomControl: true
     });
 
     this.map = map;
@@ -129,10 +130,18 @@ export default class MapComponent extends Component {
   }
 
   addMarkers(locations) {
+    var i = 0;
     locations.forEach((location) => {
       var marker = new google.maps.Marker({
         position: new google.maps.LatLng(location._id[1], location._id[0]),
-        map: this.map
+        map: this.map,
+        title: "Count: " + location.count,
+        icon: new google.maps.MarkerImage(
+          'http://maps.google.com/mapfiles/kml/paddle/' + (++i) + '.png',
+          null,
+          null,
+          null,
+          new google.maps.Size(42, 42))
       });
 
       this.markers.push(marker);
@@ -144,6 +153,26 @@ export default class MapComponent extends Component {
           infowindow.open(this.map, marker);
       });
     });
+  }
+
+  toggleMarkerOn(id) {
+    var marker = this.markers[id-1];
+    marker.setIcon(new google.maps.MarkerImage(
+      'http://maps.google.com/mapfiles/kml/paddle/blu-circle.png',
+      null,
+      null,
+      null,
+      new google.maps.Size(42, 42)))
+  }
+
+  toggleMarkerOff(id) {
+    var marker = this.markers[id-1];
+    marker.setIcon(new google.maps.MarkerImage(
+      'http://maps.google.com/mapfiles/kml/paddle/' + id + '.png',
+      null,
+      null,
+      null,
+      new google.maps.Size(42, 42)))
   }
 
   getHeatmapPoints(trips, isPickup) {
@@ -201,7 +230,7 @@ export default class MapComponent extends Component {
       'rgba(191, 0, 31, 1)',
       'rgba(255, 0, 0, 1)'
     ];
-    
+
     this.dropoffHeatmap.set('gradient', gradient);
   }
 

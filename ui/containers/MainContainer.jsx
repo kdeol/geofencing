@@ -38,6 +38,16 @@ const MainContainer = React.createClass({
     mapComponent.toggleDropoffHeatMap(trips, checkbox.checked);
   },
 
+  handleRowHover (id) {
+    var mapComponent = this.refs['mapComponent'];
+    mapComponent.toggleMarkerOn(id);
+  },
+
+  handleRowMouseOut (id) {
+    var mapComponent = this.refs['mapComponent'];
+    mapComponent.toggleMarkerOff(id);
+  },
+
   render () {
     return <div>
       <MapComponent
@@ -51,6 +61,8 @@ const MainContainer = React.createClass({
         onTrips={this.handleTrips}
         handlePickupHeatMapClick={this.handlePickupHeatMapClick}
         handleDropoffHeatMapClick={this.handleDropoffHeatMapClick}
+        onRowHover={this.handleRowHover}
+        onRowMouseOut={this.handleRowMouseOut}
       />
     </div>
   }

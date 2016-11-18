@@ -17,6 +17,6 @@ export default class TotalTripsComponent extends Component {
   }
 
   render() {
-    return <button id="trip-count-button" type="button" className="btn btn-default" onClick={this.props.onQueryClick}>Get Trip Count</button>
+    return <button id="trip-count-button" type="button" className="btn btn-default" onClick={this.props.onQueryClick}>Search Area</button>
   }
 }

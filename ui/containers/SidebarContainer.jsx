@@ -110,6 +110,8 @@ const SidebarContainer = React.createClass({
         topPickups={this.state.topPickups}
         topDropoffs={this.state.topDropoffs}
         showPickups={this.state.showPickups}
+        onRowHover={this.props.onRowHover}
+        onRowMouseOut={this.props.onRowMouseOut}
       />
     </div>
   }
