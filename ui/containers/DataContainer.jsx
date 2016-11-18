@@ -1,21 +1,26 @@
 import React from 'react';
 import PickupRowComponent from '../components/PickupRowComponent.jsx'
+import HourlyHistogramComponent from '../components/HourlyHistogramComponent.jsx'
+import moment from 'moment'
+
+var tripCountLabelStyle = {
+  "display": "inline"
+};
+
+var tripCountDivStyle = {
+  "marginTop": "24px",
+  "marginBottom": "24px"
+};
 
 const DataContainer = React.createClass({
-
-  renderByHour() {
-    var hourArr = new Array(24);
-
-    this.props.trips.forEach()
-  },
 
   render () {
     var elements = [];
     var topLocations = this.props.showPickups ? this.props.topPickups : this.props.topDropoffs;
     var title = this.props.showPickups ? "Pickups" : "Dropoffs";
     if(this.props.trips.length > 0) {
-      elements.push(<div>Total Trip Count: {this.props.trips.length}</div>);
-      elements.push(renderByHour());
+      elements.push(<div style={tripCountDivStyle}><h4 style={tripCountLabelStyle}>Total Trip Count: </h4><span>{this.props.trips.length}</span></div>);
+      elements.push(<HourlyHistogramComponent trips={this.props.trips} />);
     }
 
     if(topLocations.length > 0) {

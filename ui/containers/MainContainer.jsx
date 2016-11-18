@@ -53,7 +53,6 @@ const MainContainer = React.createClass({
       <MapComponent
         ref="mapComponent"
         onShapeChange={this.handleShapeChange}
-        onMap
       />
       <SidebarContainer
         bounds = {this.state.bounds}
