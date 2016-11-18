@@ -11,10 +11,9 @@ const DataContainer = React.createClass({
     }
 
     if(topLocations.length > 0) {
-      elements.push(<table className="table">
+      elements.push(<table className="table table-hover">
         <thead>
         <tr>
-          <th>#</th>
           <th>Longitude</th>
           <th>Latitude</th>
           <th>Count</th>

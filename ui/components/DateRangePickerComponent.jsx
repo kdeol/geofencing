@@ -4,6 +4,11 @@ export default class DateRangePickerComponent extends Component {
   constructor(props) {
     super(props);
   }
+
+
+  shouldComponentUpdate () {
+    return false;
+  }
   
   componentDidMount() {
     $('input[name="daterange"]').daterangepicker(

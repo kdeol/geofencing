@@ -5,6 +5,11 @@ export default class TopDropoffsComponent extends Component {
     super(props);
   }
 
+
+  shouldComponentUpdate () {
+    return false;
+  }
+
   componentDidMount() {
 
   }

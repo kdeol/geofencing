@@ -5,6 +5,10 @@ export default class TotalTripsComponent extends Component {
     super(props);
   }
 
+  shouldComponentUpdate () {
+    return false;
+  }
+
   componentDidMount() {
 
   }

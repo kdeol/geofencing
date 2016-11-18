@@ -4,6 +4,10 @@ export default class TopPickupsComponent extends Component {
   constructor(props) {
     super(props);
   }
+  
+  shouldComponentUpdate () {
+    return false;
+  }
 
   componentDidMount() {
 

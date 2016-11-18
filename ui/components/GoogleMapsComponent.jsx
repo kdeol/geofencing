@@ -10,6 +10,8 @@ export default class MapComponent extends Component {
   constructor(props) {
     super(props);
     this.markers = [];
+    this.pickupHeatmap = null;
+    this.dropoffHeatmap = null;
   }
 
   shouldComponentUpdate (nextProps, nextState) {
@@ -142,6 +144,65 @@ export default class MapComponent extends Component {
           infowindow.open(this.map, marker);
       });
     });
+  }
+
+  getHeatmapPoints(trips, isPickup) {
+    var points = [];
+    var coordinateIndex = isPickup ? 0 : 1;
+    trips.forEach(function (trip) {
+      var coord = trip.loc.coordinates[coordinateIndex];
+      points.push(new google.maps.LatLng(coord[1], coord[0]));
+    });
+    return points;
+  }
+
+  togglePickupHeatMap (trips, state) {
+    if(!this.pickupHeatmap && state) {
+      this.addPickupHeatmap(trips);
+    } else {
+      this.pickupHeatmap.setMap(state ? this.map : null);
+    }
+  }
+
+  toggleDropoffHeatMap (trips, state) {
+    if(!this.dropoffHeatmap && state) {
+      this.addDropoffHeatmap(trips);
+    } else {
+      this.dropoffHeatmap.setMap(state ? this.map : null);
+    }
+  }
+
+  addPickupHeatmap (trips) {
+    this.pickupHeatmap = new google.maps.visualization.HeatmapLayer({
+      data: this.getHeatmapPoints(trips, true),
+      map: this.map
+    });
+  }
+
+  addDropoffHeatmap (trips) {
+    this.dropoffHeatmap = new google.maps.visualization.HeatmapLayer({
+      data: this.getHeatmapPoints(trips, false),
+      map: this.map
+    });
+
+    var gradient = [
+      'rgba(0, 255, 255, 0)',
+      'rgba(0, 255, 255, 1)',
+      'rgba(0, 191, 255, 1)',
+      'rgba(0, 127, 255, 1)',
+      'rgba(0, 63, 255, 1)',
+      'rgba(0, 0, 255, 1)',
+      'rgba(0, 0, 223, 1)',
+      'rgba(0, 0, 191, 1)',
+      'rgba(0, 0, 159, 1)',
+      'rgba(0, 0, 127, 1)',
+      'rgba(63, 0, 91, 1)',
+      'rgba(127, 0, 63, 1)',
+      'rgba(191, 0, 31, 1)',
+      'rgba(255, 0, 0, 1)'
+    ];
+    
+    this.dropoffHeatmap.set('gradient', gradient);
   }
 
   render() {

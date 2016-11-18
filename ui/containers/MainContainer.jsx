@@ -22,6 +22,22 @@ const MainContainer = React.createClass({
     mapComponent.addMarkers(locations);
   },
 
+  handleTrips (trips) {
+    var mapComponent = this.refs['mapComponent'];
+    mapComponent.addPickupHeatmap(trips);
+    mapComponent.addDropoffHeatmap(trips);
+  },
+
+  handlePickupHeatMapClick(trips, checkbox) {
+    var mapComponent = this.refs['mapComponent'];
+    mapComponent.togglePickupHeatMap(trips, checkbox.checked);
+  },
+
+  handleDropoffHeatMapClick(trips, checkbox) {
+    var mapComponent = this.refs['mapComponent'];
+    mapComponent.toggleDropoffHeatMap(trips, checkbox.checked);
+  },
+
   render () {
     return <div>
       <MapComponent
@@ -32,6 +48,9 @@ const MainContainer = React.createClass({
       <SidebarContainer
         bounds = {this.state.bounds}
         onTopLocations={this.handleTopLocations}
+        onTrips={this.handleTrips}
+        handlePickupHeatMapClick={this.handlePickupHeatMapClick}
+        handleDropoffHeatMapClick={this.handleDropoffHeatMapClick}
       />
     </div>
   }
