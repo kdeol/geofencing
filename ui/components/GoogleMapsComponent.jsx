@@ -2,8 +2,12 @@ import React, {Component} from 'react';
 import _ from 'lodash';
 
 var mapStyle = {
-  width:"500px",
-  height:"500px"
+  position: 'absolute',
+  top: '0',
+  left: '460px',
+  right: '0',
+  bottom: '0',
+  'minWidth': '300px'
 };
 
 export default class MapComponent extends Component {
@@ -30,7 +34,7 @@ export default class MapComponent extends Component {
       arr.push({lat: NE.lat(), lng: NE.lng()}); //NorthEast
       arr.push({lat: SW.lat(), lng: NE.lng()}); //SouthEast
       arr.push({lat: SW.lat(), lng: SW.lng()}); //SouthWest
-      arr.push({lat: SW.lng(), lng: NE.lat()}); //NorthWest
+      arr.push({lat: NE.lat(), lng: SW.lng()}); //NorthWest
       arr.push({lat: NE.lat(), lng: NE.lng()}); //Close the loop to make this box a polygon
     } else {
       for(let b of bounds) {
@@ -47,7 +51,7 @@ export default class MapComponent extends Component {
 
   componentDidUpdate () {
     var map = new google.maps.Map(document.getElementById('map'), {
-      zoom: 11,
+      zoom: 12,
       center: new google.maps.LatLng(40.7388652,-73.9917875),
       mapTypeId: google.maps.MapTypeId.ROADMAP,
       disableDefaultUI: true,
@@ -62,7 +66,8 @@ export default class MapComponent extends Component {
       drawingControl: true,
       drawingControlOptions: {
         position: google.maps.ControlPosition.TOP_CENTER,
-        drawingModes: ['polygon', 'rectangle']
+        drawingModes: ['polygon', 'rectangle'],
+        size: new google.maps.Size(48, 48)
       },
       polygonOptions: {
         draggable: true,
@@ -117,6 +122,7 @@ export default class MapComponent extends Component {
         (shape != null)) {
         shape.setMap(null);
         this.removeMarkers();
+        this.removeHeatMaps();
       }
     });
   }
@@ -127,6 +133,13 @@ export default class MapComponent extends Component {
     });
 
     this.markers = [];
+  }
+
+  removeHeatMaps () {
+    this.togglePickupHeatMap([], false);
+    this.toggleDropoffHeatMap([], false);
+    this.pickupHeatmap = null;
+    this.dropoffHeatmap = null;
   }
 
   addMarkers(locations) {

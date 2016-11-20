@@ -24,8 +24,8 @@ const MainContainer = React.createClass({
 
   handleTrips (trips) {
     var mapComponent = this.refs['mapComponent'];
-    mapComponent.addPickupHeatmap(trips);
-    mapComponent.addDropoffHeatmap(trips);
+    //mapComponent.addPickupHeatmap(trips);
+    //mapComponent.addDropoffHeatmap(trips);
   },
 
   handlePickupHeatMapClick(trips, checkbox) {

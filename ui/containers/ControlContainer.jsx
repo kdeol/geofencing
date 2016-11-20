@@ -18,7 +18,8 @@ const ControlContainer = React.createClass({
   },
 
   render () {
-    return (<div id="controls" style={controlContainerStyle}>
+    return (<div id="controls">
+      <div style={controlContainerStyle}>
         <DateRangePickerComponent
           onDateRange={this.props.onDateRange}
         />
@@ -26,6 +27,8 @@ const ControlContainer = React.createClass({
           onQueryClick={this.props.onQueryClick}
           isLoading={this.props.isLoading}
         />
+      </div>
+      <div style={controlContainerStyle}>
         <PickupHeatMapComponent
           onChecked={this.props.onPickupHeatMapClick}
           heatmapEnabled={this.props.heatmapEnabled}
@@ -36,6 +39,8 @@ const ControlContainer = React.createClass({
           heatmapEnabled={this.props.heatmapEnabled}
           heatmapOn={this.props.dropoffHeatmapOn}
         />
+      </div>
+      <div style={controlContainerStyle}>
         <TopPickupsComponent
           onQueryClick={this.props.onTopPickupsClick}
           isLoading={this.props.isLoading}
@@ -44,6 +49,7 @@ const ControlContainer = React.createClass({
           onQueryClick={this.props.onTopDropoffsClick}
           isLoading={this.props.isLoading}
         />
+      </div>
 
       </div>);
   }

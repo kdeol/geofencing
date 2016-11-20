@@ -4,6 +4,10 @@ var datePickerStyle = {
   "display": "inline"
 };
 
+var dateRangeStyle = {
+  marginLeft: "6px"
+};
+
 export default class DateRangePickerComponent extends Component {
   constructor(props) {
     super(props);
@@ -32,8 +36,8 @@ export default class DateRangePickerComponent extends Component {
 
   render() {
     return <div style={datePickerStyle} className="control">
-      <label>Date</label>
-      <input type="text" name="daterange" />
+      <label>Date Range</label>
+      <input type="text" name="daterange" style={dateRangeStyle}/>
     </div>
   }
 }

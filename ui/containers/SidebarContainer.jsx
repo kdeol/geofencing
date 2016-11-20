@@ -5,6 +5,17 @@ import DataContainer from './DataContainer.jsx'
 import LoadingComponent from '../components/LoadingComponent.jsx'
 import _ from 'lodash'
 
+var sidebarStyle = {
+  position: 'absolute',
+  top: '0',
+  left: '0',
+  bottom: '0',
+  width: '460px',
+  height: "100%",
+  display: 'flex',
+  'flexDirection': 'column'
+};
+
 const SidebarContainer = React.createClass({
 
   getInitialState() {
@@ -39,7 +50,7 @@ const SidebarContainer = React.createClass({
           throw error;
         }
       }).then((json) => {
-      this.setState({isLoading: false, 'trips': json, 'heatmapEnabled': true, 'pickupHeatmapOn': true, 'dropoffHeatmapOn': true});
+      this.setState({isLoading: false, 'trips': json, 'heatmapEnabled': true, 'pickupHeatmapOn': false, 'dropoffHeatmapOn': false});
       this.props.onTrips(this.state.trips);
     }).catch(function(ex) {
       console.log(ex)
@@ -97,7 +108,7 @@ const SidebarContainer = React.createClass({
   },
 
   render () {
-    return <div>
+    return <div style={sidebarStyle}>
       <ControlContainer
         onQueryClick={this.handleQueryClick}
         onDateRange={this.handleDateRange}

@@ -3,6 +3,11 @@ import PickupRowComponent from '../components/PickupRowComponent.jsx'
 import HourlyHistogramComponent from '../components/HourlyHistogramComponent.jsx'
 import moment from 'moment'
 
+var dataDivStyle = {
+  'height': "100%",
+  'overflow': 'hidden'
+};
+
 var tripCountLabelStyle = {
   "display": "inline"
 };
@@ -48,7 +53,7 @@ const DataContainer = React.createClass({
       </table>);
     }
 
-    return (<div id="data">
+    return (<div id="data" style={dataDivStyle}>
       {elements}
     </div>);
   }
