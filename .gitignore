@@ -27,7 +27,6 @@ node_modules
 .idea
 
 # Sample Data
-sample_data
 transform_sample_data
 
 # Compiled JS
