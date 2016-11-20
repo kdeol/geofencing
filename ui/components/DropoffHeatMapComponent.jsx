@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+/**
+ * Checkbox to enable/disable dropoff heatmap
+ */
 export default class DropoffHeatMapComponent extends Component {
   constructor(props) {
     super(props);

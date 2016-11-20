@@ -33,6 +33,9 @@ const SidebarContainer = React.createClass({
     this.setState({start: start.format('YYYY-MM-DD'), end: end.format('YYYY-MM-DD')});
   },
 
+  /**
+   * Queries for trips contained within the current shape selected on the map
+   */
   handleQueryClick () {
     this.setState({isLoading: true, 'trips': [], 'topPickups': [], 'topDropoffs': []});
     //send this.state.bounds to backend
@@ -51,12 +54,14 @@ const SidebarContainer = React.createClass({
         }
       }).then((json) => {
       this.setState({isLoading: false, 'trips': json, 'heatmapEnabled': true, 'pickupHeatmapOn': false, 'dropoffHeatmapOn': false});
-      this.props.onTrips(this.state.trips);
     }).catch(function(ex) {
       console.log(ex)
     });
   },
 
+  /**
+   * Queries the server for the top pickups in the shape selected
+   */
   handleTopPickupsClick () {
     this.setState({isLoading: true});
     var req = { start: this.state.start, end: this.state.end, coordinates: this.props.bounds };
@@ -77,6 +82,9 @@ const SidebarContainer = React.createClass({
     });
   },
 
+  /**
+   * Queries the server for the top dropoffs in the shape selected
+   */
   handleTopDropoffsClick () {
     this.setState({isLoading: true});
     var req = { start: this.state.start, end: this.state.end, coordinates: this.props.bounds };
@@ -97,6 +105,10 @@ const SidebarContainer = React.createClass({
     });
   },
 
+  /**
+   * These toggle the heatmaps on or off
+   * @param checkbox
+   */
   handlePickupHeatMapClick (checkbox) {
     this.props.handlePickupHeatMapClick(this.state.trips, checkbox);
     this.setState({'pickupHeatmapOn': checkbox.checked});

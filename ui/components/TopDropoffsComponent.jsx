@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+/**
+ * Button to display top dropoffs for selected shape
+ */
 export default class TopDropoffsComponent extends Component {
   constructor(props) {
     super(props);

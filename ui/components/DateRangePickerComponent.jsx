@@ -8,6 +8,9 @@ var dateRangeStyle = {
   marginLeft: "6px"
 };
 
+/**
+ * Date range picker for data
+ */
 export default class DateRangePickerComponent extends Component {
   constructor(props) {
     super(props);

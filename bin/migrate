@@ -14,7 +14,7 @@ fs.readdir('./sample_data', function(err, filenames) {
     return;
   }
 
-  //for every file in the directory, read the CSV in to MongoDB
+  //for every .csv file in the directory, read the CSV, transform it so that every other row is a dropoff and save it to a temp directory
   var expected = 0;
   var finished = 0;
 
@@ -26,8 +26,11 @@ fs.readdir('./sample_data', function(err, filenames) {
   filenames.forEach(function(filename) {
     if(filename.startsWith('.'))
       return;
+
     expected++;
     var tripRecords = [];
+
+    // Create read stream for the input file, and write stream for the intermediate output file
     var reader = fs.createReadStream('./sample_data/' + filename);
     var writer = fs.createWriteStream(transformDir + 'TRANSFORM-' + filename, {flags: 'w', encoding: 'utf-8',mode: 0666});
     var rowCount = 0; // to keep track of where we are
@@ -49,7 +52,7 @@ fs.readdir('./sample_data', function(err, filenames) {
               "coordinates": [ [parseFloat(row[2]), parseFloat(row[1])], [parseFloat(nextDropoff.lon), parseFloat(nextDropoff.lat)]]}
           };
           var coord = trip.loc.coordinates;
-          //only add trip if beginning is not the same as the end and both exist
+          //only add trip if beginning is not the same as the end and both beginning and end exist
           if((coord[0][0] && coord[0][1] && coord[1][0] && coord[1][1])
             && coord[0][0] !== coord[1][0] && coord[0][1] !== coord[1][1]) {
             tripRecords.push(trip);
@@ -66,7 +69,7 @@ fs.readdir('./sample_data', function(err, filenames) {
         throw err;
       }).on('end',function() {
         console.log("DONE PARSING %s!\n", filename);
-        //write transformed csv to intermediate output file that will be uploaded to mongodb
+        //write transformed csv to intermediate output file that will be BULK uploaded to mongodb
         writer.write(JSON.stringify(tripRecords));
         //Use expected and finished so we know when we have processed all the files
         if(expected == ++finished) {

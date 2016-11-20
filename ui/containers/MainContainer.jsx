@@ -4,6 +4,9 @@ import 'whatwg-fetch'
 import MapComponent from '../components/GoogleMapsComponent.jsx'
 import SidebarContainer from './SidebarContainer.jsx'
 
+/**
+ * Main react container, responsible for passing changes between the sidebar and the map
+ */
 const MainContainer = React.createClass({
 
   getInitialState() {
@@ -16,18 +19,21 @@ const MainContainer = React.createClass({
     this.setState({bounds: bounds});
   },
 
+  /**
+   * Places markers for top pickups or dropoffs on map
+   * @param locations
+   */
   handleTopLocations (locations) {
     var mapComponent = this.refs["mapComponent"];
     mapComponent.removeMarkers(locations);
     mapComponent.addMarkers(locations);
   },
 
-  handleTrips (trips) {
-    var mapComponent = this.refs['mapComponent'];
-    //mapComponent.addPickupHeatmap(trips);
-    //mapComponent.addDropoffHeatmap(trips);
-  },
-
+  /**
+   * Handles heatmap toggles and places heatmaps on map
+   * @param trips
+   * @param checkbox
+   */
   handlePickupHeatMapClick(trips, checkbox) {
     var mapComponent = this.refs['mapComponent'];
     mapComponent.togglePickupHeatMap(trips, checkbox.checked);
@@ -38,6 +44,10 @@ const MainContainer = React.createClass({
     mapComponent.toggleDropoffHeatMap(trips, checkbox.checked);
   },
 
+  /**
+   * These handle the mouse events on rows of the top Pickup/Dropoff table to animate the markers
+   * @param id
+   */
   handleRowHover (id) {
     var mapComponent = this.refs['mapComponent'];
     mapComponent.toggleMarkerOn(id);
@@ -48,6 +58,10 @@ const MainContainer = React.createClass({
     mapComponent.toggleMarkerOff(id);
   },
 
+  /**
+   *
+   * @returns Map and Sidebar components
+   */
   render () {
     return <div>
       <MapComponent
@@ -57,7 +71,6 @@ const MainContainer = React.createClass({
       <SidebarContainer
         bounds = {this.state.bounds}
         onTopLocations={this.handleTopLocations}
-        onTrips={this.handleTrips}
         handlePickupHeatMapClick={this.handlePickupHeatMapClick}
         handleDropoffHeatMapClick={this.handleDropoffHeatMapClick}
         onRowHover={this.handleRowHover}

@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+/**
+ * Button to search the selected area for the total number of trips
+ */
 export default class TotalTripsComponent extends Component {
   constructor(props) {
     super(props);

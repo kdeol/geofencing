@@ -11,6 +11,11 @@ decimal.config({
   DECIMAL_PLACES: 5
 });
 
+/**
+ *
+ * @param req
+ * @returns MongoDB geospatial query
+ */
 function getQueryFromRequest (req) {
   var query = {  };
   var coordinates = req.query.coordinates;
@@ -49,6 +54,9 @@ function getQueryFromRequest (req) {
 
 }
 
+/**
+ * Query for trips contained within the request shape bounds
+ */
 router.get('/', function(req, res, next) {
 
   var query = getQueryFromRequest(req);
@@ -59,6 +67,9 @@ router.get('/', function(req, res, next) {
     .pipe(res);
 });
 
+/**
+ * Get the top pickups for the requested shape
+ */
 router.get('/toppickups', function(req, res, next) {
   var query = getQueryFromRequest(req);
 
@@ -89,6 +100,9 @@ router.get('/toppickups', function(req, res, next) {
   });
 });
 
+/**
+ * Get the top dropoffs for the requested shape
+ */
 router.get('/topdropoffs', function(req, res, next) {
   var query = getQueryFromRequest(req);
 

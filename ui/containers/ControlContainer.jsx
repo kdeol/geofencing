@@ -11,6 +11,9 @@ var controlContainerStyle = {
   "marginBottom": "24px"
 };
 
+/**
+ * Renders the controls used to query and add layers to the map
+ */
 const ControlContainer = React.createClass({
 
   getInitialState() {

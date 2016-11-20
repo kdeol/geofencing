@@ -10,6 +10,9 @@ var mapStyle = {
   'minWidth': '300px'
 };
 
+/**
+ * Google Maps component. Handles Google Maps API and adding/removing or markers and drawing/heatmap layers
+ */
 export default class MapComponent extends Component {
   constructor(props) {
     super(props);
@@ -26,6 +29,12 @@ export default class MapComponent extends Component {
     this.componentDidUpdate()
   }
 
+  /**
+   * Converts the selected shape coordinates in to an array usable by server
+   * @param bounds
+   * @param isRectangle
+   * @returns {Array}
+   */
   boundsToArray(bounds, isRectangle) {
     var arr = [];
     if(isRectangle) {
@@ -49,6 +58,9 @@ export default class MapComponent extends Component {
     return arr;
   }
 
+  /**
+   * Creates map component
+   */
   componentDidUpdate () {
     var map = new google.maps.Map(document.getElementById('map'), {
       zoom: 12,
@@ -61,6 +73,7 @@ export default class MapComponent extends Component {
 
     this.map = map;
 
+    // Add drawing tools to map
     var drawingManager = new google.maps.drawing.DrawingManager({
       drawingMode: google.maps.drawing.OverlayType.POLYGON,
       drawingControl: true,
@@ -88,13 +101,14 @@ export default class MapComponent extends Component {
     });
     drawingManager.setMap(map);
     var shape = null;
+
+    // User finishes drawing their shape. We listen for changes to the shape so we can update our current state
     google.maps.event.addListener(drawingManager, 'overlaycomplete', (event) => {
       if (event.type == google.maps.drawing.OverlayType.RECTANGLE || event.type == google.maps.drawing.OverlayType.POLYGON) {
         if(shape != null)
           shape.setMap(null);
         shape = event.overlay;
         var bounds = [];
-        //should be setting component state here and sending to server when it changes
         if(event.type == google.maps.drawing.OverlayType.POLYGON) {
           var path = shape.getPath();
           this.props.onShapeChange(this.boundsToArray(path.getArray(), false));
@@ -117,6 +131,7 @@ export default class MapComponent extends Component {
       }
     });
 
+    // Remove all layers if the drawing mode changes (which means the user is creating a new shape)
     google.maps.event.addListener(drawingManager, "drawingmode_changed", () => {
       if (drawingManager.getDrawingMode() &&
         (shape != null)) {
@@ -142,6 +157,10 @@ export default class MapComponent extends Component {
     this.dropoffHeatmap = null;
   }
 
+  /**
+   * Adds markers on the given locations
+   * @param locations
+   */
   addMarkers(locations) {
     var i = 0;
     locations.forEach((location) => {
@@ -163,6 +182,10 @@ export default class MapComponent extends Component {
     });
   }
 
+  /**
+   * These functions handle animating the markers on row hover
+   * @param id
+   */
   toggleMarkerOn(id) {
     var marker = this.markers[id-1];
     marker.setAnimation(google.maps.Animation.BOUNCE);
@@ -173,6 +196,12 @@ export default class MapComponent extends Component {
     marker.setAnimation(null);
   }
 
+  /**
+   * Converts trips in to points to be used by the heatmaps
+   * @param trips
+   * @param isPickup
+   * @returns {Array}
+   */
   getHeatmapPoints(trips, isPickup) {
     var points = [];
     var coordinateIndex = isPickup ? 0 : 1;

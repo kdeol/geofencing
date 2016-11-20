@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+/**
+ * Component for each row of top pickup/dropoff table
+ */
 export default class PickupRowComponent extends Component {
   constructor(props) {
     super(props);

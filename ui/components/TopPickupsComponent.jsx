@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+/**
+ * Button to display top pickups for area
+ */
 export default class TopPickupsComponent extends Component {
   constructor(props) {
     super(props);

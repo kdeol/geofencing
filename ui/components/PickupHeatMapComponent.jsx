@@ -1,5 +1,8 @@
 import React, {Component} from 'react';
 
+/**
+ * Checkbox to enable/disable pickup heatmap
+ */
 export default class PickupHeatMapComponent extends Component {
   constructor(props) {
     super(props);

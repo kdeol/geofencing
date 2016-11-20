@@ -17,6 +17,9 @@ var tripCountDivStyle = {
   "marginBottom": "24px"
 };
 
+/**
+ * Conditionally renders the total number of trips, hourly chart, and top pickups/dropoffs list
+ */
 const DataContainer = React.createClass({
 
   render () {
