@@ -86,4 +86,13 @@ Given more time and resources I would tackle the following:
  - Use Google Distance Matrix API to get distance and duration for trips (from which we can then get the average speed!)
 
 ### Performance
-TO-DO
+Let's talk about the performance of the app...Right now I have only loaded the month of April 2014 on the hosted version of the app due to the fact that I am running on a Free EC2 MICRO Instance which has 1 CPU and 1GB of memory. Obviously much more computing power would help the performance. But it could be greatly improved with some architectural changes as well though. 
+The first and biggest bottleneck is that the database queries are slow. This is a function of both the amount of data in the database and the size of the area being queried. There are a couple of remedies for this:
+  - If we are sticking with MongoDB then we should shard the database on date (probably by month since, assuming trips are well distributed among months. Which is a big assumption since there is a possibility people user Uber more in colder months for example). Sharding on geospatial key would be much more complex and we know rides are not distributed evenly in different regions.
+  - Replace MongoDB with PostgreSQL + PostGIS. I would need to evaluate the performance of this architecture and compare it to MongoDB.
+
+The second area of bottleneck is transferring the data over HTTP from the node server to the client. We can possibly solve this by streaming the data over websockets instead of responding with all the data at once. Currently I am using the node stream API for querying the database and so we could pipe that to a socket that pushes data to the client as it comes in and then since the state of our React app will be updated every time the client receives new data, it will just update and fill in the data as it comes in. It would take the same amount of time for the query to full complete but instead of just a loading spinner, the user would see the data updating as it came in.
+
+The next area of performance that can be improved is the number of points being handled by the Google Map as I have seen performance degrade with many heatmap layers and markers. We can't make Google Maps faster but we can control how much data we are passing it specifically for the heatmaps. We can "bin" the trip points so that points within a certain distance of an "index" point are grouped together and then we only use the index points in the heatmap. Essentially making the resolution lower but still providing an idea of trip density.
+
+Performance diagrams coming....
