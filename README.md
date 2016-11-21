@@ -62,7 +62,7 @@ Using the data provided and the tools I have built here, we can see where and wh
 * *Bootstrap* - So that I don't have to write too much CSS and have a nice date picker...
 * Other important libs are *babel* (for ES6+ support), *browserify* (to re-use dependencies on front and back end), *fetch* (for AJAX requests), *moment.js* (for time formatting/parsing), *lodash* (for iteration)
 
-The entry point for the app is `app.js` which imports the web server endpoints from `routes/`. In that folder you will see `index.js` which serves up our main page and `query.js` which provides the endpoints for the UI to query for data. `index.js` serves `index.html` when the page is loaded which imports `public/javascripts/main.js`. All this file does is use ReactDOM to initialize the React app by rendering `ui/containers/MainContainer`. All of the React classes are in `ui/containers` and `ui/components`.
+The entry point for the app is `app.js` which imports the web server endpoints from `routes/`. In that folder you will see `index.js` which serves up our main page and `query.js` which provides the endpoints for the UI to query for data. `index.js` serves `index.html` when the page is requested which imports `public/javascripts/main.js`. All this file does is use ReactDOM to initialize the React app by rendering `ui/containers/MainContainer`. All of the React classes are in `ui/containers` and `ui/components`.
 
 `MainContainer` then renders `MapComponent` and `SidebarContainer`. And it responsible for communicating between the two. `MapComponent` is our Google Map component and handles all the actions related to the Google Map.
 
@@ -83,7 +83,7 @@ The entry point for the app is `app.js` which imports the web server endpoints f
 1. `cd geofencing && make run`
 
 ### Future Development/Main Areas of Improvement
-Given more time and resources I would tackle the following:
+Given more time and resources I would tackle the following mix of tech debt and features:
  - Desperately needs more testing. The testing has mostly been done manually.
  - Performance (see the performance section below for in-depth explanation)
  - Improve the styling
