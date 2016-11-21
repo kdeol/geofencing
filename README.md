@@ -6,9 +6,9 @@ Demo at: http://
   - Searching within just NYC right now (so no need for a search box)
   - Can only draw closed polygons or rectangles
   - If running locally, then your local machine has the following requirements:
-        - Node.js version 6 or above
-        - MongoDB version 3.2 or above
-        - ONLY the sample Uber 2014 trip data from [Here](https://github.com/fivethirtyeight/uber-tlc-foil-response/tree/master/uber-trip-data) has been downloaded to the `sample_data/` folder provided in this repo. Due to the size of these files I did not provide the files again in this repo but the files uber-raw-data-apr14.csv - uber-raw-data-sep14.csv can be included.
+    - Node.js version 6 or above
+    - MongoDB version 3.2 or above
+    - ONLY the sample Uber 2014 trip data from [Here](https://github.com/fivethirtyeight/uber-tlc-foil-response/tree/master/uber-trip-data) has been downloaded to the `sample_data/` folder provided in this repo. Due to the size of these files I did not provide the files again in this repo but the files uber-raw-data-apr14.csv - uber-raw-data-sep14.csv can be included.
         
 ### Features
 This is a geofencing app built on Uber's 2014 ride data with the following features:
