@@ -62,6 +62,13 @@ Using the data provided and the tools I have built here, we can see where and wh
 * *Bootstrap* - So that I don't have to write too much CSS and have a nice date picker...
 * Other important libs are *babel* (for ES6+ support), *browserify* (to re-use dependencies on front and back end), *fetch* (for AJAX requests), *moment.js* (for time formatting/parsing), *lodash* (for iteration)
 
+The entry point for the app is `app.js` which imports the web server endpoints from `routes/`. In that folder you will see `index.js` which serves up our main page and `query.js` which provides the endpoints for the UI to query for data. `index.js` serves `index.html` when the page is loaded which imports `public/javascripts/main.js`. All this file does is use ReactDOM to initialize the React app by rendering `ui/containers/MainContainer`. All of the React classes are in `ui/containers` and `ui/components`.
+
+`MainContainer` then renders `MapComponent` and `SidebarContainer`. And it responsible for communicating between the two. `MapComponent` is our Google Map component and handles all the actions related to the Google Map.
+
+`SidebarContainer` is responsible for all the interactions in the sidebar and renders `ControlContainer` and `DataContainer`. `ControlContainer` renders all the buttons and querying tools. `DataContainer` renders the results of querying and charts and location tables. `DataContainer` should be more encapsulated. The HTML should be rendered as different components and this container should only be responsible for javascript, not rendering regular HTML. That would greatly reduce the clutter in this file and clean up the code in this spot.
+
+
 ### Installation
 1. `git clone https://github.com/kdeol/geofencing.git`
 2. `cd geofencing`
@@ -88,6 +95,8 @@ Given more time and resources I would tackle the following:
 ### Performance
 Let's talk about the performance of the app...Right now I have only loaded the month of April 2014 on the hosted version of the app due to the fact that I am running on a Free EC2 MICRO Instance which has 1 CPU and 1GB of memory. Obviously much more computing power would help the performance. But it could be greatly improved with some architectural changes as well though. 
 The first and biggest bottleneck is that the database queries are slow. This is a function of both the amount of data in the database and the size of the area being queried. There are a couple of remedies for this:
+  - Caching. We could cache the results of querying the database, however this would probably only be minimally useful since it would require the bounds of the shape to be exactly the same for a cache hit. Or we could round the bounds to say 3 decimal places and have a less accurate query result.
+  - Ensure that all the data can fit in memory so we are not reading from the disk for our DB queries.
   - If we are sticking with MongoDB then we should shard the database on date (probably by month since, assuming trips are well distributed among months. Which is a big assumption since there is a possibility people user Uber more in colder months for example). Sharding on geospatial key would be much more complex and we know rides are not distributed evenly in different regions.
   - Replace MongoDB with PostgreSQL + PostGIS. I would need to evaluate the performance of this architecture and compare it to MongoDB.
 
