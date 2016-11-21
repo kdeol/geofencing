@@ -24,10 +24,10 @@ This is a geofencing app built on Uber's 2014 ride data with the following featu
 
 ##### Controls
   - The Map Drawing tools for selecting an area are on the top center of the map. They provide buttons for an arbitrary polygon or a rectangle.
+   - The Heatmap checkboxes will be DISABLED until you click the "Search Area" button at which point you can toggle the heatmaps on and off
+  - The "Top Pickups" and "Top Dropoffs" are always available
   
     ![controls](https://raw.githubusercontent.com/kdeol/geofencing/master/public/images/controls.png?raw=true)
-  - The Heatmap checkboxes will be DISABLED until you click the "Search Area" button at which point you can toggle the heatmaps on and off
-  - The "Top Pickups" and "Top Dropoffs" are always available
  
 ##### Search Results and Analysis
   - After selecting an area and date range and clicking "Search Area" we see the following:
