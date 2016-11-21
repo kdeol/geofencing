@@ -1,6 +1,6 @@
 # geofencing
 
-Demo located [HERE](http://ec2-35-160-186-128.us-west-2.compute.amazonaws.com:3000/)
+#### Demo located [HERE](http://ec2-35-160-186-128.us-west-2.compute.amazonaws.com:3000/)
 
 ### Assumptions/Requirements
   - Searching within just NYC right now (so no need for a search box)
