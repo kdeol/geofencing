@@ -76,6 +76,7 @@ Using the data provided and the tools I have built here, we can see where and wh
 Given more time and resources I would tackle the following:
  - Desperately needs more testing. The testing has mostly been done manually.
  - Performance (see the performance section below for in-depth explanation)
+ - Improve the styling
  - More robust/fault tolerant CSV parser for the data upload and parallel processing of CSV files
  - Chart for trips by Day of the Week, and trips by month of the year (do people use Uber more on weekends or in cold months?)
  - Convert Longitude/Latitude in Top pickups/dropoffs to locations using Google Places API
