@@ -70,7 +70,7 @@ Using the data provided and the tools I have built here, we can see where and wh
 5. `make db` (MongoDB must be running locally. This will import the data to MongoDB and build the geospatial indices. The indices will build in the background. THIS CAN TAKE SEVERAL MINUTES TO COMPLETE DEPENDING ON HOW MUCH DATA YOU ARE USING.)
 
 ### Running
-1. `make run`
+1. `cd geofencing && make run`
 
 ### Future Development/Main Areas of Improvement
 Given more time and resources I would tackle the following:
