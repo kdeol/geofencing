@@ -16,6 +16,7 @@
     "body-parser": "~1.15.2",
     "browserify": "^13.1.1",
     "cookie-parser": "~1.4.3",
+    "csv-parse": "^1.1.7",
     "debug": "~2.2.0",
     "ejs": "^2.5.2",
     "event-stream": "^3.3.4",
