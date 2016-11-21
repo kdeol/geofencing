@@ -67,7 +67,10 @@ Using the data provided and the tools I have built here, we can see where and wh
 2. `cd geofencing`
 3. Copy 2014 data files (at least one of them) from [Here](https://github.com/fivethirtyeight/uber-tlc-foil-response/tree/master/uber-trip-data) in to `sample_data/`
 4. `make install` (This will install all dependencies)
-5. `make db` (MongoDB must be running locally. This will import the data to MongoDB and build the geospatial indices. The indices will build in the background. THIS CAN TAKE SEVERAL MINUTES TO COMPLETE DEPENDING ON HOW MUCH DATA YOU ARE USING.)
+5. `make db` (MongoDB must be running locally. The indices will build in the background. THIS CAN TAKE SEVERAL MINUTES TO COMPLETE DEPENDING ON HOW MUCH DATA YOU ARE USING.) This step does a few things:
+  - Takes the raw data and converts it to be half the amount by making every other row a dropoff
+  - Bulk uploads the converted data to mongoDB
+  - Builds the geospatial indices
 
 ### Running
 1. `cd geofencing && make run`
@@ -76,6 +79,7 @@ Using the data provided and the tools I have built here, we can see where and wh
 Given more time and resources I would tackle the following:
  - Desperately needs more testing. The testing has mostly been done manually.
  - Performance (see the performance section below for in-depth explanation)
+ - Improve the styling
  - More robust/fault tolerant CSV parser for the data upload and parallel processing of CSV files
  - Chart for trips by Day of the Week, and trips by month of the year (do people use Uber more on weekends or in cold months?)
  - Convert Longitude/Latitude in Top pickups/dropoffs to locations using Google Places API
