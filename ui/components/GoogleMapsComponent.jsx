@@ -83,7 +83,6 @@ export default class MapComponent extends Component {
         size: new google.maps.Size(48, 48)
       },
       polygonOptions: {
-        draggable: true,
         editable: true,
         fillColor: '#000',
         fillOpacity: 0.25,
@@ -91,7 +90,6 @@ export default class MapComponent extends Component {
         zIndex: 1
       },
       rectangleOptions: {
-        draggable: true,
         editable: true,
         fillColor: '#000',
         fillOpacity: 0.25,
